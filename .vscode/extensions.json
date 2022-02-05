@@ -1,0 +1,11 @@
+{
+	"recommendations": [
+		"ms-vscode.cpptools",
+		"streetsidesoftware.code-spell-checker",
+		"seatonjiang.gitmoji-vscode",
+		"wakatime.vscode-wakatime"
+	],
+	"unwantedRecommendations": [
+		"github.copilot"
+	]
+}
