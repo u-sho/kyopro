@@ -1,0 +1,10 @@
+# ignore no-extension files
+*
+!*/
+!.*
+!*.*
+
+# ignore files with extension
+*.class
+*.sm
+*.o
