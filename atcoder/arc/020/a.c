@@ -1,0 +1,1 @@
+A,B;main(d){scanf("%d%d",&A,&B);d=((A<0?-A:A)-(B<0?-B:B));puts(d<0?"Ant":(d?"Bug":"Draw"));}
