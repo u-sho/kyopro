@@ -1,0 +1,1 @@
+f;main(n){for(;~scanf("%c",&n);)f+=n==55;puts(f?"Yes":"No");}
