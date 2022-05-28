@@ -28,7 +28,7 @@ int main() {
     if (query == 2) {
       cin >> x >> c;
       map<ui, ui>::iterator it2 = S.find(x);
-      if (it2 != S.end()) continue;
+      if (it2 == S.end()) continue;
 
       ui Sx = it2->second;
       if (Sx - min(c, Sx)) {
