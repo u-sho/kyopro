@@ -12,8 +12,19 @@ int main() {
   vector<ui> a(N);
   for (ui &ai : a) cin >> ai;
 
-  for (ui i = 0; i < N - K; i++) {
-    if (a[i] > a[i + K]) swap(a[i], a[i + K]);
+  vector<vector<ui>> b(K);
+  for (ui i = 0; i < K; i++) {       // O(N)
+    for (ui j = i; j < N; j += K) {  // O(N/K)
+      b[i].push_back(a[j]);
+    }
+  }
+
+  for (auto &bi : b) sort(bi.begin(), bi.end());  // O(K N/K log N/K)
+
+  for (ui i = 0; i < K; i++) {
+    for (ui j = i, k = 0; j < N; j += K, k++) {
+      a[j] = b[i][k];
+    }
   }
 
   bool sorted = true;
