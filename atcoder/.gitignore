@@ -1,0 +1,3 @@
+# for Rust
+**/target/
+Cargo.lock
