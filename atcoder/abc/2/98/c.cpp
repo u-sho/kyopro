@@ -17,7 +17,8 @@ int main() {
 
     using pqu = priority_queue<unsigned, vector<unsigned>, greater<unsigned>>;
     vector<pqu> in_box(N + 1U);
-    multimap<unsigned, unsigned> cards;
+    using puu = pair<unsigned, unsigned>;
+    set<puu> cards;
 
     while (Q--) {
         unsigned query_kind, i;
@@ -29,12 +30,7 @@ int main() {
             cin >> j;
             in_box[j].push(i);
 
-            bool has_card_i_in_box_j = false;
-            auto [it_begin, it_end]  = cards.equal_range(i);
-            for (auto it = it_begin; it != it_end; ++it) {
-                if (it->second == j) has_card_i_in_box_j = true;
-            }
-            if (!has_card_i_in_box_j) cards.insert(make_pair(i, j));
+            cards.insert(make_pair(i, j));
             continue;
         }
 
@@ -59,7 +55,8 @@ int main() {
 
         // display boxs of card i
         if (query_kind == 3) {
-            auto [it_begin, it_end] = cards.equal_range(i);
+            const auto& it_begin = cards.lower_bound(make_pair(i, 0));
+            const auto& it_end   = cards.upper_bound(make_pair(i, N + 1));
             for (auto it = it_begin; it != it_end; ++it) {
                 cout << (it->second) << ' ';
             }
