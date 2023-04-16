@@ -13,7 +13,8 @@
 	"C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, IndentWidth: 4}",
 	"[c][cpp]": {
 		"editor.tabSize": 4,
-		"editor.defaultFormatter": "ms-vscode.cpptools"
+		"editor.defaultFormatter": "ms-vscode.cpptools",
+		// "editor.formatOnSave": false
 	},
 	"cSpell.words": [
 		"atcoder",
