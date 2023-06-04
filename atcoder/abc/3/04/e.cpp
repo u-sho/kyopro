@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
 
-#define BS(v, c) std::binary_search(v.begin(), v.end(), (c))
-
 /* std::pair の入力 */
 template <typename T1, typename T2>
 std::istream &operator>>(std::istream &is, std::pair<T1, T2> &p) {
@@ -25,17 +23,18 @@ class UnionFind {
     std::vector<Node> parent;
 
   public:
+    /* サイズ n の素集合を作成: o(n) */
     UnionFind(const std::size_t &n) : parent(n) {
         for (std::size_t i = 0; i < n; i++) parent[i] = Node(i);
     }
 
-    /* ノード x が属する木の根 */
+    /* ノード x が属する木の根を返す：𝑶(log n) */
     [[nodiscard]] Node root(const Node x) {
         if (parent[x] == x) return x;
         return parent[x] = root(parent[x]);
     }
 
-    /* 小さい方を親として，木x と 木y を併合．成功したかを返す． */
+    /* 小さい方を親として，木x と 木y を併合し成功したかを返す：𝑶(log n) */
     bool merge(const Path &xy) {
         unsigned root_x = root(xy.first);
         unsigned root_y = root(xy.second);
@@ -44,11 +43,11 @@ class UnionFind {
         return true;
     }
 
-    /* x, y が属する木は同じか */
+    /* x, y が属する木は同じか：𝑶(log n) */
     bool same(const Path &xy) { return root(xy.first) == root(xy.second); }
 };
 
-int main() {
+int main() {  // 𝑶( (M + K) log N + K log K) + o(Q lb Q)
     using namespace std;
 
     cin.tie(nullptr);
@@ -62,7 +61,7 @@ int main() {
     for (unsigned i = 0; i < M; i++) {
         Path uv;
         cin >> uv;
-        g.merge(uv);
+        g.merge(uv);  // 𝑶(log N)
     }
 
     unsigned K; /* 非連結であるべきノード対の数 */
@@ -79,7 +78,7 @@ int main() {
 
     // 前処理 ------------------------------------------------------
 
-    // 非連結成分は代表元（根）でまとめる 𝑶(K α(N))
+    // 非連結成分は代表元（根）でまとめる 𝑶(K log N)
     for (Path &xyi : xy) {
         Node root_xi = g.root(xyi.first);
         Node root_yi = g.root(xyi.second);
@@ -87,7 +86,7 @@ int main() {
     }
     deduplicate(xy);  // 重複を取り除きソートして管理 𝜣(K log K)
 
-    // クエリも代表元（根）でまとめる 𝑶(Q α(N))
+    // クエリも代表元（根）でまとめる 𝑶(Q log N)
     for (Path &pqi : pq) {
         Node root_pi = g.root(pqi.first);
         Node root_qi = g.root(pqi.second);
@@ -96,7 +95,8 @@ int main() {
 
     // 判定 --------------------------------------------------------
     for (const Path &pqi : pq) {
-        if (BS(xy, pqi)) {  // 非連結であるべきか o(lb Q)
+        // 非連結であるべきか lb Q + O(1)
+        if (binary_search(xy.begin(), xy.end(), pqi)) {
             cout << "No\n";
         } else {
             cout << "Yes\n";
