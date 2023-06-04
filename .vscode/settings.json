@@ -6,7 +6,7 @@
 		"${workspaceFolder}/**",
 		"~/github.com/atcoder/ac-library/**",
 		"/usr/local/include/**",
-    "/usr/local/Cellar/gcc/13.1.0/include/c++/12/**",
+    "/usr/local/Cellar/gcc/13.1.0/include/c++/13/**",
 		"/usr/include/**",
 	],
 	"C_Cpp.formatting": "clangFormat",
