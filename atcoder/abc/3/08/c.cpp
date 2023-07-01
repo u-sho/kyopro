@@ -1,28 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-    cin.tie(nullptr);
-    ios::sync_with_stdio(false);
+using ui    = uint64_t;
+using ABi_t = tuple<ui, ui, ui>;
 
-    unsigned N;
+int main() {
+    ui N;
     cin >> N;
 
-    /* first: 確率の逆数, second: 添字 */
-    vector<pair<long double, unsigned>> ipr(N);
-    int i = 0;
-    for (auto& [ipri, id] : ipr) {
-        unsigned A, B, g;
+    ui i = 1;
+    vector<ABi_t> abi(N);
+    for (auto& [A, B, id] : abi) {
+        id = i++;
         cin >> A >> B;
-        g = gcd(A, B);
-
-        ipri = ((long double)((A + B) / g)) / (long double)(A / g);
-        id   = ++i;
     }
 
-    sort(ipr.begin(), ipr.end());
+    sort(abi.begin(), abi.end(), [](const ABi_t& x, const ABi_t& y) {
+        const auto& [Ax, Bx, ix] = x;
+        const auto& [Ay, By, iy] = y;
+        // Ax/(Ax+Bx) > Ay/(Ay+By)  <=>  Ax(Ay+By) > Ay(Ax+Bx)
+        return (make_pair(Ay * (Ax + Bx), ix) < make_pair(Ax * (Ay + By), iy));
+    });
 
-    for (const auto& [pri, id] : ipr) {
+    for (const auto& [_a, _b, id] : abi) {
         cout << id << ' ';
     }
 
