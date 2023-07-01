@@ -7,24 +7,22 @@ int main() {
 
     unsigned N;
     cin >> N;
-    vector<pair<long double, unsigned>> pr(N);
+
+    /* first: 確率の逆数, second: 添字 */
+    vector<pair<long double, unsigned>> ipr(N);
     int i = 0;
-    for (auto& [pri, id] : pr) {
-        id = ++i;
+    for (auto& [ipri, id] : ipr) {
         unsigned A, B, g;
         cin >> A >> B;
-        g    = gcd(A, B);
-        A   /= g;
-        B   /= g;
-        pri  = (long double)A / ((long double)A + (long double)B);
+        g = gcd(A, B);
+
+        ipri = ((long double)((A + B) / g)) / (long double)(A / g);
+        id   = ++i;
     }
 
-    sort(pr.begin(), pr.end(), [](auto const& x, auto const& y) {
-        return ((x.first == y.first) ? (x.second < y.second)  // iの昇順
-                                     : (x.first > y.first));  // 確率の降順
-    });
+    sort(ipr.begin(), ipr.end());
 
-    for (const auto& [pri, id] : pr) {
+    for (const auto& [pri, id] : ipr) {
         cout << id << ' ';
     }
 
