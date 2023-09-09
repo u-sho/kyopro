@@ -1,71 +1,54 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ALL(v)   (v).begin(), (v).end()
-#define SORT(v)  sort(ALL(v))
-#define LP(v, c) lower_bound(ALL(v), (c))
-#define UP(v, c) upper_bound(ALL(v), (c))
-#define BS(v, c) binary_search(ALL(v), (c))
+using c_t    = uint_fast8_t;
+using c_it_t = uint_fast8_t;
 
-#define REP(i, n)  for (size_t i = 0UL; i < (n); i++)
-#define REP1(i, n) for (size_t i = 1UL; i < (n); i++)
+const vector<tuple<c_it_t, c_it_t, c_it_t>> lines = {
+    {0, 1, 2},
+    {3, 4, 5},
+    {6, 7, 8},
 
-vector<pair<size_t, size_t>> v_ij = {
-    {0, 0},
-    {0, 1},
-    {0, 2},
+    {0, 3, 6},
+    {1, 4, 7},
+    {2, 5, 8},
 
-    {1, 0},
-    {1, 1},
-    {1, 2},
-
-    {2, 0},
-    {2, 1},
-    {2, 2}
+    {0, 4, 8},
+    {2, 4, 6}
 };
+
+// o_ij[i] := マス i を何番目に開けるか
+array<c_it_t, 9> o_ij = {0, 1, 2, 3, 4, 5, 6, 7, 8};
 
 int main() {
     cin.tie(nullptr);
     ios::sync_with_stdio(false);
 
-    vector<string> c(3);
-    for (auto &ci : c) cin >> ci;
+    array<c_t, 9> c;
+    for (auto &cij : c) cin >> cij;
 
+    uint_fast32_t gakkari_count = 0U;
     do {
-        set<map<pair<size_t, size_t>, char>> lines = {
-            {{{0, 0}, '-'}, {{0, 1}, '-'}, {{0, 2}, '-'}},
-            {{{1, 0}, '-'}, {{1, 1}, '-'}, {{1, 2}, '-'}},
-            {{{2, 0}, '-'}, {{2, 1}, '-'}, {{2, 2}, '-'}},
-
-            {{{0, 0}, '-'}, {{1, 0}, '-'}, {{2, 0}, '-'}},
-            {{{0, 1}, '-'}, {{1, 1}, '-'}, {{2, 1}, '-'}},
-            {{{0, 2}, '-'}, {{1, 2}, '-'}, {{2, 2}, '-'}},
-
-            {{{0, 0}, '-'}, {{1, 1}, '-'}, {{2, 2}, '-'}},
-            {{{0, 2}, '-'}, {{1, 1}, '-'}, {{2, 0}, '-'}}
-        };
-
-        for (const auto &ij : v_ij) {
-            vector<decltype(lines)::iterator> delete_lines;
-            for (auto it = lines.begin(); it != lines.end(); it++) {
-                if (!(*it).contains(ij)) continue;
-
-                uint8_t count = 0;
-                char known_c  = '-';
-                for (auto &[ij_c, cc] : *it) {
-                    if (cc == '-') count++;
-                    else known_c = cc;
-                }
-                if (known_c == c[ij.first][ij.second]) goto END_LOOP;
-                else delete_lines.push_back(it);
+        for (const auto &[l0, l1, l2] : lines) {
+            c_t c0 = c[l0], c1 = c[l1], c2 = c[l2];
+            c_it_t o0 = o_ij[l0], o1 = o_ij[l1], o2 = o_ij[l2];
+            if (c0 == c1 && o0 < o2 && o1 < o2) {
+                ++gakkari_count;
+                break;
             }
-
-            for (auto it : delete_lines) {
-                lines.erase(it);
+            if (c1 == c2 && o1 < o0 && o2 < o0) {
+                ++gakkari_count;
+                break;
+            }
+            if (c2 == c0 && o2 < o1 && o0 < o1) {
+                ++gakkari_count;
+                break;
             }
         }
-    END_LOOP:
-    } while (next_permutation(ALL(v_ij)));  // 9! = 36288
+    } while (next_permutation(o_ij.begin(), o_ij.end()));
+    constexpr long double all_count = 362880.0L;
+
+    cout << setprecision(20) << (all_count - gakkari_count) / all_count << '\n';
 
     return 0;
 }
