@@ -23,5 +23,6 @@
 		"snuke",
 		"ulli",
 		"yukicoder"
-	]
+	],
+  "terminal.integrated.enableMultiLinePasteWarning": false
 }
