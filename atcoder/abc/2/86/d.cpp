@@ -1,29 +1,39 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main(void) {
-    unsigned N, X;
+template <typename T1, typename T2>
+istream &operator>>(istream &is, pair<T1, T2> &p) {
+    is >> p.first >> p.second;
+    return is;
+}
+
+int main() {
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+
+    uint N, X;
     cin >> N >> X;
-    vector<pair<unsigned, unsigned>> AB(N);  // Ai円硬貨をBi円持っている
-    for (auto& ABi : AB) cin >> ABi.first >> ABi.second;
+    vector<pair<uint, uint>> AB(N);
+    for (pair<uint, uint> &ABi : AB) cin >> ABi;
 
-    // (j*Ai)円硬貨を1枚ずつ持っている（j=1,2,...,Bi）
-    vector<unsigned> payable;
-    payable.push_back(0);
-    for (const auto& ABi : AB) {
-        for (unsigned j = 1; j <= ABi.second; j++) {
-            if (j * ABi.first <= X)
-                payable.push_back(j * ABi.first);
-            else
-                break;
+    vector<bool> is_payable(X + 1U, false);
+    is_payable[0] = true;
+    // 50*10000*50=25'000'000
+    for (const auto &[A, B] : AB) {  // <= 50個
+        vector<bool> be_skip(X + 1U, false);
+        for (uint i = 0; i <= X; i++) {  // X<=10000
+            if (be_skip[i]) continue;
+            if (is_payable[i]) {
+                for (uint j = 1; j <= B && i + A * j <= X; j++) {  // B<=50
+                    if (is_payable[i + A * j]) break;
+                    is_payable[i + A * j] = true;
+                    be_skip[i + A * j]    = true;
+                }
+            }
         }
     }
 
-    for (unsigned i = 0; i <= X; i++) {
-        if (payable.at(i)) {
-        }
-    }
+    cout << (is_payable[X] ? "Yes\n" : "No\n");
 
-    cout << (payable[X] ? "Yes\n" : "No\n");
     return 0;
 }
