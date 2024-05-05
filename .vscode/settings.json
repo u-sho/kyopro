@@ -1,12 +1,12 @@
 {
 	"C_Cpp.default.cStandard": "c17",
 	"C_Cpp.default.cppStandard": "c++23",
-  "C_Cpp.default.compilerArgs": ["-Wall", "-Wextra", "-Werror"],
+	"C_Cpp.default.compilerArgs": ["-Wall", "-Wextra", "-Werror"],
 	"C_Cpp.default.includePath": [
 		"${workspaceFolder}/**",
 		"~/github.com/atcoder/ac-library/**",
 		"/usr/local/include/**",
-    "/usr/local/Cellar/gcc/13.1.0/include/c++/13/**",
+		"/usr/local/Cellar/gcc/13.1.0/include/c++/13/**",
 		"/usr/include/**",
 	],
 	"C_Cpp.formatting": "clangFormat",
