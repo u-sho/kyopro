@@ -1,0 +1,1 @@
+A,a,i;main(s){for(;~scanf("%c",&s);a=s=='Z'?i:a)i+=A|=s=='A';printf("%d",a);}
