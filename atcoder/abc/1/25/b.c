@@ -1,0 +1,1 @@
+N,i,Z,V[20];main(C){for(scanf("%d",&N);i<N;)scanf("%d",&V[i++]);for(i=0;i<N;Z+=V[i]>C?V[i]-C:0,i++)scanf("%d",&C);printf("%d",Z);}

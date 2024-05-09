@@ -1,0 +1,1 @@
+A,B;main(T){scanf("%d%d%d",&A,&B,&T);printf("%d",T/A*B);}

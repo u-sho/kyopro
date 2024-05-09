@@ -1,27 +1,31 @@
-#include <cmath>
-#include <string>
-#include <vector>
-#include <numeric> /* gcd, lcm, partial_sum, reduce*/
-#include <iostream>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
 
-int main(){
-    // 2 <= N <= 1e5
-    // 1 <= A_i <= 1e9
+#include <atcoder/segtree>
+using atcoder::segtree;
+
+uint ugcd(uint n, uint m) { return gcd(n, m); }
+uint UINT_GCD_E() { return 0U; }
+
+int main() {
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+
     int N;
     cin >> N;
-    int A[N];
-    for(int i=0; i<N; i++) cin >> A[i];
+    segtree<uint, ugcd, UINT_GCD_E> A(N);
+    for (int i = 0; i < N; i++) {
+        uint Ai;
+        cin >> Ai;
+        A.set(i, Ai);
+    }
 
-    int gcd_A = gcd(A[0], A[1]);
-    for(int i=2; i<N; i++) gcd_A = gcd(gcd_A, A[i]); // O(N log_10(A[i])*5)最悪
+    uint ans = A.prod(1, N);
+    for (int i = 1; i < N - 1; i++)
+        ans = max(ans, gcd(A.prod(0, i), A.prod(i + 1, N)));
+    ans = max(ans, A.prod(0, N - 1));
 
-    int A_div_gcd[N];
-    for(int i=0; i<N; i++) A_div_gcd[i] = A[i] / gcd_A;
+    std::cout << ans << '\n';
 
-    for(int i=0; i<N; i++)
     return 0;
 }
