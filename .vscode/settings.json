@@ -1,7 +1,7 @@
 {
 	"C_Cpp.default.cStandard": "c17",
 	"C_Cpp.default.cppStandard": "c++23",
-	"C_Cpp.default.compilerArgs": ["-Wall", "-Wextra", "-Werror"],
+	"C_Cpp.default.compilerArgs": ["-Wall", "-Wextra", "-Werror", "-fmodules-ts"],
 	"C_Cpp.default.includePath": [
 		"${workspaceFolder}/**",
 		"~/github.com/atcoder/ac-library/**",
