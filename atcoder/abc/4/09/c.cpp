@@ -16,24 +16,19 @@ int main() {
     vector<uint> d(N, 0);  // <= L
     for (uint i = 1; i <= N - 1; i++) cin >> d[i];
 
-    vector<uint> s(N);
-    partial_sum(d.begin(), d.end(), s.begin());
-    for (auto& si : s) si %= L;
-
     map<uint, uint> pos_count;
-    for (const auto si : s) pos_count[si]++;
-
-    ranges::sort(s);
-    s.erase(unique(s.begin(), s.end()), s.end());
+    uint pos = 0;
+    for (const uint di : d) {
+        pos = (pos + di) % L;
+        pos_count[pos]++;
+    }
 
     uint count = 0;
-    for (const auto si : s) {
-        if (si >= L / 3u) break;
+    for (uint p1 = 0; p1 < L / 3u; p1++) {
+        const uint p2 = (p1 + (L / 3u)) % L;
+        const uint p3 = (p2 + (L / 3u)) % L;
 
-        uint sj = si + (L / 3u);
-        uint sk = (sj + (L / 3u)) % L;
-
-        count += pos_count[si] * pos_count[sj] * pos_count[sk];
+        count += pos_count[p1] * pos_count[p2] * pos_count[p3];
     }
 
     cout << count << '\n';
