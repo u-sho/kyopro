@@ -2,36 +2,42 @@
 using namespace std;
 
 int main() {
-    cin.tie(nullptr);
-    ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	ios::sync_with_stdio(false);
 
-    uint N, L;  // <= 3e5
-    cin >> N >> L;
+	uint N, L;
+	cin >> N >> L;
+	vector<uint> d(N - 1u);
+	for (uint &di : d) cin >> di;
 
-    if (L % 3u) {
-        cout << 0 << '\n';
-        return 0;
-    }
+	if (L % 3u) {
+		cout << "0\n";
+		return 0;
+	}
 
-    vector<uint> d(N, 0);  // <= L
-    for (uint i = 1; i <= N - 1; i++) cin >> d[i];
+	vector<uint> points = {0};
+	for (const uint di : d) points.push_back((points.back() + di) % L);
+	ranges::sort(points);
 
-    map<uint, uint> pos_count;
-    uint pos = 0;
-    for (const uint di : d) {
-        pos = (pos + di) % L;
-        pos_count[pos]++;
-    }
+	uint64_t ans = 0ull;
+	for (const uint p1 : points) {
+		if (p1 >= L / 3u) break;
 
-    uint count = 0;
-    for (uint p1 = 0; p1 < L / 3u; p1++) {
-        const uint p2 = (p1 + (L / 3u)) % L;
-        const uint p3 = (p2 + (L / 3u)) % L;
+		const uint p2 = p1 + L / 3u;
+		const uint p3 = p1 + 2u * (L / 3u);
 
-        count += pos_count[p1] * pos_count[p2] * pos_count[p3];
-    }
+		auto it2 = ranges::lower_bound(points, p2);
+		auto it3 = ranges::lower_bound(points, p3);
 
-    cout << count << '\n';
+		if (it2 == points.end() || *it2 != p2) continue;
+		if (it3 == points.end() || *it3 != p3) continue;
 
-    return 0;
+		auto c2 = ranges::upper_bound(points, p2) - it2;
+		auto c3 = ranges::upper_bound(points, p3) - it3;
+
+		ans += (uint64_t)c2 * (uint64_t)c3;
+	}
+	cout << ans << '\n';
+
+	return 0;
 }
