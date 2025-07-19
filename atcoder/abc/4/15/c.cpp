@@ -10,26 +10,23 @@ int main() {
 	for (uint t = 0; t < T; t++) {
 		uint N;  // <= 18
 		cin >> N;
-		string S;  // |S| < 2^N
+		string S;
 		cin >> S;
+		S = "0" + S;  // |S| = 2^N
 
-		vector<uint> p;
-		for (uint i = 1; i <= N; i++) p.push_back(i);
-
-		bool yes = false;
-		do {
-			uint64_t sum = 0;
-			for (const uint pi : p) {
-				uint64_t pib = 1ull << (pi - 1ull);
-				if (S[sum + pib - 1] == '1') break;
-				sum += pib;
+		for (uint i = 1; i < S.size(); i++) {
+			if (S[i] == '1') continue;
+			bool is_touchable = false;
+			for (uint j = 1; j <= i && j <= N; j++) {
+				if (i & (1u << (j - 1))) {
+					if (S[i - (1u << (j - 1))] == '1') continue;
+					is_touchable = true;
+					break;
+				}
 			}
-			if (sum == (1ull << N) - 1u) {
-				yes = true;
-				break;
-			}
-		} while (ranges::next_permutation(p).found);
-		cout << (yes ? "Yes\n" : "No\n");
+			if (!is_touchable) S[i] = '1';
+		}
+		cout << (S.back() == '0' ? "Yes\n" : "No\n");
 	}
 
 	return 0;
