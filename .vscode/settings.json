@@ -16,6 +16,8 @@
 		"editor.defaultFormatter": "ms-vscode.cpptools",
 		// "editor.formatOnSave": false
 	},
+	"editor.detectIndentation": true,
+
 	"cSpell.words": [
 		"atcoder",
 		"Codeforces",
