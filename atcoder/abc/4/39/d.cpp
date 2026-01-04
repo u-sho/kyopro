@@ -1,0 +1,2 @@
+#include<bits/stdc++.h>
+using namespace std;using l=long;l N,m;int main(){cin>>N;vector<l>A(N);for(l& a:A)cin>>a;auto v=[&](){map<l,l>t,s;for(l a:A){if(a%3==0)t[a/3]++;if(a%5==0)m+=t[a/5]*s[a/5];if(a%7==0)s[a/7]++;}};v();ranges::reverse(A);v();cout<<m;}
