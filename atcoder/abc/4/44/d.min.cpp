@@ -1,0 +1,2 @@
+#include <bits/stdc++.h>
+using namespace std;int N,i,j;int main(){cin>>N;vector A(N,0z),s={0z};for(auto&Ai:A)cin>>Ai;for(ranges::sort(A);i<N;i++)if(!i||A[i]!=A[i-1])for(;j<A[i];s[j++]%=10)s.push_back((s[j]+=N-i)/10);for(s[j]?1:--j;j>=0;)cout<<s[j--];}
