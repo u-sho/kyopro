@@ -3,24 +3,19 @@ using namespace std;
 
 vector<uint> A;
 vector<vector<uint>> tree;
-vector<int> ans;
-void dfs(const uint node, const set<uint>& writtens, const set<uint>& visited, const bool yes) {
-	if (ans[node] >= 0) return;
 
-	set<uint> visited_n = visited, writtens_n = writtens;
-	visited_n.emplace(node);
+map<uint, uint> writtens;
+vector<bool> ans(200'005, false);
 
-	if (writtens_n.find(A[node]) != writtens_n.end()) {
-		writtens_n.emplace(node);
-		ans[node] = 0;
-	} else {
-		ans[node] = yes ? 1 : 0;
-	}
+void dfs(const uint node, const uint pre_node, bool yes) {
+	writtens[A[node]]++;
+	ans[node] = yes || (writtens[A[node]] >= 2);
 
 	for (const auto v : tree[node]) {
-		if (visited_n.find(v) == visited_n.end()) continue;
-		dfs(v, writtens_n, visited_n, ans[node]);
+		if (v == pre_node) continue;
+		dfs(v, node, ans[node]);
 	}
+	writtens[A[node]]--;
 	return;
 }
 
@@ -40,10 +35,8 @@ int main() {
 		tree[v - 1].push_back(u - 1);
 	}
 
-	ans.resize(N, -1);
-
-	set<uint> writtens, visited;
-	dfs(0, writtens, visited, false);
+	set<uint> writtens;
+	dfs(0, UINT_MAX, false);
 
 	for (uint i = 0; i < N; i++) {
 		cout << (ans[i] ? "Yes\n" : "No\n");
